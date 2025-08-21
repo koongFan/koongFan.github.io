@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Marry Me - 커뮤니티</title>
+    
+    <!-- 🔥 SEO 및 소셜 미디어 메타 태그 -->
+    <meta property="og:title" content="Will You Marry Me - 커뮤니티">
+    <meta property="og:description" content="결혼 준비의 모든 것을 함께 나누는 공간">
+    <meta property="og:image" content="https://yourdomain.com/images/og-image.png">
+    <meta property="og:url" content="https://yourdomain.com/community/">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans KR', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #8CE3B5, #56AB91);
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #8CE3B5, #56AB91);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 10px 20px rgba(140, 227, 181, 0.3);
+        }
+        
+        h1 {
+            color: #2d3748;
+            margin-bottom: 8px;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            color: #718096;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+        
+        .status-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .message {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .btn {
+            padding: 16px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #8CE3B5, #56AB91);
+            color: white;
+            box-shadow: 0 4px 15px rgba(140, 227, 181, 0.4);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(140, 227, 181, 0.6);
+        }
+        
+        .btn-secondary {
+            background: #f7fafc;
+            color: #4a5568;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .btn-secondary:hover {
+            background: #edf2f7;
+            transform: translateY(-1px);
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        .content-preview {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            text-align: left;
+            display: none;
+            border-left: 4px solid #8CE3B5;
+        }
+        
+        .content-preview h3 {
+            color: #2d3748;
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+        
+        .content-preview p {
+            color: #4a5568;
+            line-height: 1.5;
+        }
+        
+        .app-features {
+            background: #f0fff4;
+            border: 1px solid #9ae6b4;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 20px;
+        }
+        
+        .app-features h4 {
+            color: #22543d;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .app-features ul {
+            color: #2f855a;
+            font-size: 13px;
+            text-align: left;
+            padding-left: 16px;
+        }
+        
+        .app-features li {
+            margin-bottom: 4px;
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 20px;
+            }
+            
+            .btn {
+                padding: 14px 20px;
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">💍</div>
+        <h1>Will You Marry Me</h1>
+        <div class="subtitle">결혼 준비의 모든 것</div>
+        
+        <div class="status-badge">🚀 앱 스토어 심사 중</div>
+        
+        <div class="message">
+            <strong>공유받은 게시글을 확인하려면<br>앱을 다운로드해주세요!</strong>
+        </div>
+        
+        <div class="buttons">
+            <button class="btn btn-primary" id="downloadBtn" disabled>
+                📱 앱 다운로드 (준비중)
+            </button>
+            
+            <button class="btn btn-secondary" onclick="showPreview()">
+                👀 웹에서 미리보기
+            </button>
+        </div>
+        
+        <div class="app-features">
+            <h4>📋 앱에서 이용 가능한 기능</h4>
+            <ul>
+                <li>🏢 웨딩홀, 드레스 등 업체 정보</li>
+                <li>💬 실시간 커뮤니티 채팅</li>
+                <li>📊 결혼 준비 체크리스트</li>
+                <li>⭐ 실제 후기 및 평점</li>
+                <li>🔔 맞춤형 알림 서비스</li>
+            </ul>
+        </div>
+        
+        <div id="contentPreview" class="content-preview">
+            <h3>📝 게시글 미리보기</h3>
+            <p id="postContent">로딩 중...</p>
+        </div>
+    </div>
+
+    <script>
+        // URL에서 게시글 ID 추출
+        const pathParts = window.location.pathname.split('/');
+        const postId = pathParts[pathParts.length - 1].replace('.html', '');
+        
+        console.log('게시글 ID:', postId);
+        
+        // 디바이스 감지 및 앱 스토어 링크 설정
+        function setupDownloadButton() {
+            const downloadBtn = document.getElementById('downloadBtn');
+            const isAndroid = /Android/i.test(navigator.userAgent);
+            const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+            
+            // 실제 출시 후 주석 해제
+            /*
+            if (isAndroid) {
+                downloadBtn.href = 'https://play.google.com/store/apps/details?id=com.yourapp.will_you_marry_me';
+                downloadBtn.textContent = '📱 Play Store에서 다운로드';
+                downloadBtn.disabled = false;
+                downloadBtn.onclick = null;
+            } else
