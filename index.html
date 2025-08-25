@@ -194,6 +194,21 @@
         .app-features li {
             margin-bottom: 4px;
         }
+
+        /* 🔹 이메일/전화 문의 추가 스타일 */
+        .app-support {
+            margin-top: 20px;
+            font-size: 13px;
+            color: #4a5568;
+            text-align: left;
+        }
+        .app-support a {
+            color: #56AB91;
+            text-decoration: none;
+        }
+        .app-support a:hover {
+            text-decoration: underline;
+        }
         
         @media (max-width: 480px) {
             .container {
@@ -239,6 +254,12 @@
                 <li>🔔 맞춤형 알림 서비스</li>
             </ul>
         </div>
+
+        <!-- 🔹 이메일 문의 & 전화 문의 추가 -->
+        <div class="app-support">
+            📩 이메일 문의: <a href="mailto:support@yourdomain.com">support@yourdomain.com</a><br>
+            📞 전화 문의: <a href="tel:0123456789">012-345-6789</a>
+        </div>
         
         <div id="contentPreview" class="content-preview">
             <h3>📝 게시글 미리보기</h3>
@@ -266,4 +287,16 @@
                 downloadBtn.textContent = '📱 Play Store에서 다운로드';
                 downloadBtn.disabled = false;
                 downloadBtn.onclick = null;
-            } else
+            } else if (isIOS) {
+                downloadBtn.href = 'https://apps.apple.com/kr/app/id0000000000';
+                downloadBtn.textContent = '📱 App Store에서 다운로드';
+                downloadBtn.disabled = false;
+                downloadBtn.onclick = null;
+            }
+            */
+        }
+
+        setupDownloadButton();
+    </script>
+</body>
+</html>
