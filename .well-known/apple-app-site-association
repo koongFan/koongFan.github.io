@@ -1,11 +1,25 @@
 {
-    "applinks": {
-        "apps": [],
-        "details": [
-            {
-                "appID": "W2RH2Y2DR5.com.example.willYouMarryMe",
-                "paths": ["/review/*", "/"]
-            }
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["W2RH2Y2DR5.com.example.willYouMarryMe"],
+        "components": [
+          {
+            "/": "/review/*",
+            "comment": "리뷰 상세 페이지로 딥링크"
+          },
+          {
+            "/": "/review/",
+            "comment": "리뷰 메인 페이지"
+          }
         ]
-    }
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": ["W2RH2Y2DR5.com.example.willYouMarryMe"]
+  },
+  "appclips": {
+    "apps": ["W2RH2Y2DR5.com.example.willYouMarryMe"]
+  }
 }
