@@ -6,12 +6,17 @@
     <title>윌유메리미 - 리뷰</title>
     <meta name="apple-itunes-app" content="app-id=6746046074">
     <script>
-        // URL에서 리뷰 ID 추출
-        const pathSegments = window.location.pathname.split('/');
-        const reviewId = pathSegments[pathSegments.length - 1];
-        
+        // URL에서 쿼리 파라미터 추출
+        const urlParams = new URLSearchParams(window.location.search);
+        const reviewId = urlParams.get('id');
+        const categoryId = urlParams.get('categoryId');
+        const categoryName = urlParams.get('categoryName');
+        const title = urlParams.get('title');
+
         // iOS에서 앱 실행 시도
         function tryOpenApp() {
+            if (!reviewId) return; // id 없으면 실행 안함
+
             const appUrl = `willyoumarryme://review/${reviewId}`;
             const appStoreUrl = 'https://apps.apple.com/us/app/%EC%9C%8C%EC%9C%A0%EB%A9%94%EB%A6%AC%EB%AF%B8/id6746046074';
             
@@ -23,7 +28,7 @@
                 window.location = appStoreUrl;
             }, 1500);
         }
-        
+
         // 페이지 로드 시 자동 실행
         window.onload = function() {
             // iOS 감지
