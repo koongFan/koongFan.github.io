@@ -6,38 +6,42 @@
     <title>윌유메리미 - 리뷰</title>
     <meta name="apple-itunes-app" content="app-id=6746046074">
     <script>
-        // URL에서 쿼리 파라미터 추출
+        // URL에서 리뷰 ID와 쿼리 파라미터 추출
         const urlParams = new URLSearchParams(window.location.search);
-        const reviewId = urlParams.get('id');
+        const reviewId = urlParams.get('reviewId');
         const categoryId = urlParams.get('categoryId');
         const categoryName = urlParams.get('categoryName');
         const title = urlParams.get('title');
 
-        // iOS에서 앱 실행 시도
         function tryOpenApp() {
-            if (!reviewId) return; // id 없으면 실행 안함
+            if (!reviewId) return;
 
-            const appUrl = `willyoumarryme://review/${reviewId}`;
+            const appUrl = `willyoumarryme://review/${reviewId}?categoryId=${categoryId}&categoryName=${categoryName}&title=${title}`;
             const appStoreUrl = 'https://apps.apple.com/us/app/%EC%9C%8C%EC%9C%A0%EB%A9%94%EB%A6%AC%EB%AF%B8/id6746046074';
-            
-            // 앱 실행 시도
-            window.location = appUrl;
-            
-            // 1.5초 후 앱이 실행되지 않으면 앱스토어로 이동
-            setTimeout(function() {
-                window.location = appStoreUrl;
+
+            // 타이머 시작
+            const start = Date.now();
+            setTimeout(function () {
+                // 앱이 실행되지 않았다면 앱스토어 이동
+                if (Date.now() - start < 2000) {
+                    window.location = appStoreUrl;
+                }
             }, 1500);
+
+            // iframe으로 앱 실행 시도
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = appUrl;
+            document.body.appendChild(iframe);
         }
 
-        // 페이지 로드 시 자동 실행
         window.onload = function() {
-            // iOS 감지
             const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-            
+
             if (isIOS) {
                 tryOpenApp();
             } else {
-                // 안드로이드/PC는 앱스토어 또는 안내 페이지로
+                // 안드로이드/PC는 안내 페이지
                 document.getElementById('content').innerHTML = `
                     <h2>리뷰를 보려면 앱을 다운로드하세요!</h2>
                     <p><a href="https://apps.apple.com/us/app/%EC%9C%8C%EC%9C%A0%EB%A9%94%EB%A6%AC%EB%AF%B8/id6746046074">앱스토어에서 다운로드</a></p>
