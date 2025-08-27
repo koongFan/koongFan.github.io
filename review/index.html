@@ -4,51 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>윌유메리미 - 리뷰</title>
-    <meta name="apple-itunes-app" content="app-id=6746046074">
-    <script>
-        // URL에서 리뷰 ID와 쿼리 파라미터 추출
-        const urlParams = new URLSearchParams(window.location.search);
-        const reviewId = urlParams.get('reviewId');
-        const categoryId = urlParams.get('categoryId');
-        const categoryName = urlParams.get('categoryName');
-        const title = urlParams.get('title');
-
-        function tryOpenApp() {
-            if (!reviewId) return;
-
-            const appUrl = `willyoumarryme://review/${reviewId}?categoryId=${categoryId}&categoryName=${categoryName}&title=${title}`;
-            const appStoreUrl = 'https://apps.apple.com/us/app/%EC%9C%8C%EC%9C%A0%EB%A9%94%EB%A6%AC%EB%AF%B8/id6746046074';
-
-            // 타이머 시작
-            const start = Date.now();
-            setTimeout(function () {
-                // 앱이 실행되지 않았다면 앱스토어 이동
-                if (Date.now() - start < 2000) {
-                    window.location = appStoreUrl;
-                }
-            }, 1500);
-
-            // iframe으로 앱 실행 시도
-            const iframe = document.createElement('iframe');
-            iframe.style.display = 'none';
-            iframe.src = appUrl;
-            document.body.appendChild(iframe);
-        }
-
-        window.onload = function() {
-            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-
-            if (isIOS) {
-                tryOpenApp();
-            } else {
-                // 안드로이드/PC는 안내 페이지
-                document.getElementById('content').innerHTML = `
-                    <h2>리뷰를 보려면 앱을 다운로드하세요!</h2>
-                    <p><a href="https://apps.apple.com/us/app/%EC%9C%8C%EC%9C%A0%EB%A9%94%EB%A6%AC%EB%AF%B8/id6746046074">앱스토어에서 다운로드</a></p>
-                `;
-            }
-        }
-    </script>
+    <!-- iOS Smart App Banner -->
+    <meta name="apple-itunes-app" content="app-id=6746046074, app-argument=willyoumarryme://review">
+    
+    <!-- Android Intent -->
+    <meta name="mobile-web-app-capable" content="yes">
+    
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -70,7 +31,7 @@
             backdrop-filter: blur(10px);
         }
         h1 { font-size: 2.5em; margin-bottom: 20px; }
-        p { font-size: 1.2em; line-height: 1.6; }
+        p { font-size: 1.2em; line-height: 1.6; margin: 15px 0; }
         .app-icon {
             width: 80px;
             height: 80px;
@@ -82,15 +43,149 @@
             justify-content: center;
             font-size: 2em;
         }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            margin: 10px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        .loading {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="app-icon">💍</div>
         <h1>윌유메리미</h1>
-        <div id="content">
+        
+        <!-- 로딩 상태 -->
+        <div id="loading" class="loading">
             <p>앱으로 이동 중...</p>
         </div>
+        
+        <!-- 앱 없을 때 표시할 내용 -->
+        <div id="fallback" class="hidden">
+            <h2>리뷰를 보려면 앱을 다운로드하세요!</h2>
+            <p>더 나은 경험을 위해 윌유메리미 앱을 설치해주세요.</p>
+            <a href="https://apps.apple.com/us/app/%EC%9C%8C%EC%9C%A0%EB%A9%94%EB%A6%AC%EB%AF%B8/id6746046074" class="btn">
+                📱 App Store에서 다운로드
+            </a>
+            <div style="margin-top: 20px; font-size: 0.9em; opacity: 0.8;">
+                <p>안드로이드는 곧 출시 예정입니다!</p>
+            </div>
+        </div>
     </div>
+
+    <script>
+        // URL 파라미터 추출
+        const urlParams = new URLSearchParams(window.location.search);
+        const reviewId = urlParams.get('id') || urlParams.get('reviewId');
+        const categoryId = urlParams.get('categoryId') || '0';
+        const categoryName = urlParams.get('categoryName') || '';
+        const title = urlParams.get('title') || '';
+
+        console.log('URL Parameters:', { reviewId, categoryId, categoryName, title });
+
+        function showFallback() {
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('fallback').classList.remove('hidden');
+        }
+
+        function detectDevice() {
+            const userAgent = navigator.userAgent.toLowerCase();
+            const isIOS = /iphone|ipad|ipod/.test(userAgent);
+            const isAndroid = /android/.test(userAgent);
+            const isMobile = isIOS || isAndroid;
+            
+            return { isIOS, isAndroid, isMobile };
+        }
+
+        function tryOpenApp() {
+            const { isIOS, isAndroid, isMobile } = detectDevice();
+            
+            if (!reviewId) {
+                console.log('No reviewId found');
+                showFallback();
+                return;
+            }
+
+            // URL 스킴 생성 (딥링크)
+            const deepLinkUrl = `willyoumarryme://review?id=${reviewId}&categoryId=${categoryId}&categoryName=${encodeURIComponent(categoryName)}&title=${encodeURIComponent(title)}`;
+            
+            console.log('Deep link URL:', deepLinkUrl);
+
+            if (isIOS) {
+                // iOS Universal Link 시도
+                let appOpened = false;
+                
+                // 앱이 실행되면 페이지가 숨겨지므로 이를 감지
+                document.addEventListener('visibilitychange', function() {
+                    if (document.hidden) {
+                        appOpened = true;
+                    }
+                });
+
+                // 페이지 포커스 잃으면 앱이 열린 것으로 간주
+                window.addEventListener('blur', function() {
+                    appOpened = true;
+                });
+
+                // Universal Link 시도
+                window.location.href = deepLinkUrl;
+
+                // 2초 후에도 앱이 열리지 않았다면 폴백 표시
+                setTimeout(function() {
+                    if (!appOpened && document.hidden === false) {
+                        console.log('App not opened, showing fallback');
+                        showFallback();
+                    }
+                }, 2000);
+
+            } else if (isAndroid) {
+                // 안드로이드는 아직 미지원
+                showFallback();
+            } else {
+                // PC/기타
+                showFallback();
+            }
+        }
+
+        // 페이지 로드 시 실행
+        window.addEventListener('load', function() {
+            console.log('Page loaded, trying to open app');
+            
+            // 약간의 딜레이 후 앱 실행 시도
+            setTimeout(tryOpenApp, 500);
+            
+            // 10초 후 무조건 폴백 표시 (안전장치)
+            setTimeout(showFallback, 10000);
+        });
+
+        // iOS에서 앱이 백그라운드에서 돌아올 때
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                // 앱에서 돌아온 경우
+                console.log('Returned from app');
+                showFallback();
+            }
+        });
+    </script>
 </body>
 </html>
